@@ -22,6 +22,8 @@ public class Calculator
 		double Rent = 0;
 		double XboxLive = 0;
 		double PSN = 0;
+		double Runescape = 0;
+		double HibsTV = 0;
 		double Spotify = 0;
 		double GitHub = 0;
 		double Food = 0;
