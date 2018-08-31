@@ -50,60 +50,17 @@ public class Calculator
 		
 		//Prints the name of current directory, was using this to debug finding the csv
 		//System.out.println(System.getProperty("user.dir"));
-		GetBills();
 		
-		FinanceManager FM = FinanceManager.getInstance();
+		//FinanceManager FM = FinanceManager.getInstance();
 		
 
 		
-		PayBills(income);
+		income = PayBills(income);
+		System.out.println("");
+		System.out.println("Post-bills income: " + income);
+		System.out.println("");
+		System.out.println("Your monthly expenses sum to " + MonthlyExpendature());
 	}
-	
-	
-	
-	
-	public static void GetBills() throws FileNotFoundException
-	{
-		//won't be void but it's temp
-		
-		//For each line in Bills.csv
-		//create a new Bill object, matching up the name and amount from the .csv file
-		//Once this method has been completed, call Pay() [temp name] for each Bill in the ArrayList.
-		
-		//Also have something within this app that allows to add a new bill through the code without heading over
-		//to the csv file itself. 
-		
-		
-		//ArrayList for the bills to be held in
-		List<Bill> BillList = new ArrayList<Bill>();
-		
-		//Read .csv file
-		Scanner csvReader = new Scanner(new File("Bills.csv"));
-		csvReader.useDelimiter(",");
-		
-		//Gather every bill from the .csv file, separate the name and amount by the comma
-		//and then assign them to the corresponding variable of the new Bill object created
-		//for each line in the .csv (for each bill).
-		//Then, add these Bill objects to the BillList.
-		while(csvReader.hasNext())
-		{
-			String data = csvReader.nextLine();
-            String [] arr = data.split(",");
-			
-			Bill B = new Bill();
-			B.billName = arr[0];
-            B.billAmount = Double.parseDouble(arr[1]);
-			BillList.add(B);
-		}
-		
-		//for(int i = 0; i < BillList.size(); i++)
-		//{
-		//	BillList.get(i).Pay();
-		//}
-		
-		csvReader.close();
-	}
-
 
 
 	public static double getIncomeTax(double salary)
@@ -178,7 +135,7 @@ public class Calculator
 	}
 	
 	
-	public static double PayBills(double PostTaxIncome)
+	public static double PayBills(double PostTaxIncome) throws FileNotFoundException
 	{
 		for(int i = 0; i < FinanceManager.getInstance().getBillList().size(); i++)
 		{
@@ -186,5 +143,17 @@ public class Calculator
 		}
 		
 		return PostTaxIncome;
+	}
+	
+	public static double MonthlyExpendature() throws FileNotFoundException
+	{
+		double MonthlyExpendature = 0;
+		
+		for(int i = 0; i < FinanceManager.getInstance().getBillList().size(); i++)
+		{
+		MonthlyExpendature += FinanceManager.getInstance().getBillList().get(i).billAmount;
+		}
+		
+		return MonthlyExpendature;
 	}
 }

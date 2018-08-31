@@ -6,8 +6,11 @@ public class Bill {
 	
 	public double Pay(Double RemainingIncome)
 	{
-		System.out.println(billName + " paid.");
-		//return 0;
+		if(billAmount != 0)
+		{
+			System.out.println(billName + " paid.");
+			//System.out.println(billName + " (£" + billAmount + ") paid.");
+		}
 		return RemainingIncome - billAmount;
 	}
 	
