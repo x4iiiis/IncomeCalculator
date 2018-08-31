@@ -12,3 +12,14 @@ public abstract class ReasonToSave {
 		return 0;
 	}
 }
+
+//SeasonTicket
+//Tattoo
+//Holiday
+//Car
+//House
+//GamesConsole
+//PCComponents
+//NewTV
+//x4iiiis.com renewal
+//Car Insurance Renewal
