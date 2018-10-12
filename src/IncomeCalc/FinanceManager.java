@@ -10,11 +10,13 @@ public class FinanceManager {
 
 	//Singleton
 	private static FinanceManager instance = null;
+
 	
 	//Finance Manager singleton contains the lists of all the bills and reasons to save
 	//This keeps the code tidy and keeps the lists out of the way of the functionality program code
 	private static List<Bill> BillList = new ArrayList<Bill>();
 	private static List<ReasonToSave> SaveList = new ArrayList<ReasonToSave>();
+	
 	
 	//FinanceManager is a singleton
 	public static FinanceManager getInstance() throws FileNotFoundException
