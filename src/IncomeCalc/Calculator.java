@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Calculator 
 {
-	public static void main(String[] args) throws FileNotFoundException 
+	public static void calculate() throws FileNotFoundException 
 	{
 		//Outside variables
 		double incomeTaxRate = 0;
@@ -39,10 +39,10 @@ public class Calculator
 		income = income - (calcAndDeductNationalInsurance(salary));
 		System.out.println("Post National Insurance Salary: " + income);
 		
-		
+		System.out.println();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
-		LocalDate localDate = LocalDate.now();
-		System.out.println(dtf.format(localDate)); //2016/11/16
+		LocalDate today = LocalDate.now();
+		System.out.println(dtf.format(today)); //2016/11/16
 		
 		System.out.println("");
 		System.out.println("");
@@ -60,6 +60,11 @@ public class Calculator
 		System.out.println("Post-bills income: " + income);
 		System.out.println("");
 		System.out.println("Your monthly expenses sum to " + MonthlyExpendature());
+		
+		System.out.println();
+		System.out.println();
+		FinanceManager FM = FinanceManager.getInstance();
+		FM.payBills(FM.getBillList());
 	}
 
 

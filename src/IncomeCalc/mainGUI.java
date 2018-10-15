@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
@@ -265,6 +266,13 @@ public class mainGUI {
 			public void actionPerformed(ActionEvent e) {
 				
 				//Calculate Income
+				Calculator Calc = new Calculator();
+				try {
+					Calc.calculate();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnCalculateIncome.setBounds(66, 23, 152, 29);

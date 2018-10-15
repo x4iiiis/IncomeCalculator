@@ -1,8 +1,13 @@
 package IncomeCalc;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class Bill {
 	String billName;
-	double billAmount;
+	double billAmount = 0.0;
+	int monthsBetweenPayments = 0;	//Years will be converted to months
+	LocalDate lastPayment;	//The day of every month (or particular month of said year) bill will be paid on 
 	
 	public double Pay(Double RemainingIncome)
 	{
