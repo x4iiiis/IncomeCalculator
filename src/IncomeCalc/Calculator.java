@@ -42,7 +42,7 @@ public class Calculator
 		System.out.println();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
 		LocalDate today = LocalDate.now();
-		System.out.println(dtf.format(today)); //2016/11/16
+		//System.out.println(dtf.format(today)); //2016/11/16
 		
 		System.out.println("");
 		System.out.println("");
@@ -55,16 +55,16 @@ public class Calculator
 		
 
 		
-		income = PayBills(income);
-		System.out.println("");
-		System.out.println("Post-bills income: " + income);
-		System.out.println("");
-		System.out.println("Your monthly expenses sum to " + MonthlyExpendature());
+		//income = PayBills(income);
+		//System.out.println("");
+		//System.out.println("Post-bills income: " + income);
+		//System.out.println("");
+		//System.out.println("Your monthly expenses sum to " + MonthlyExpendature());
 		
-		System.out.println();
-		System.out.println();
+		//System.out.println();
+		//System.out.println();
 		FinanceManager FM = FinanceManager.getInstance();
-		FM.payBills(FM.getBillList());
+		//FM.payBills(FM.getBillList());
 	}
 
 

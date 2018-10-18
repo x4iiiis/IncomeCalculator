@@ -7,7 +7,8 @@ public class Bill {
 	String billName;
 	double billAmount = 0.0;
 	int monthsBetweenPayments = 0;	//Years will be converted to months
-	LocalDate lastPayment;	//The day of every month (or particular month of said year) bill will be paid on 
+	LocalDate lastPayment;	//The day of every month (or particular month of said year) bill will be paid on
+	LocalDate nextPayment;
 	
 	public double Pay(Double RemainingIncome)
 	{
