@@ -18,7 +18,7 @@ public class Calculator
 		double studentLoanRate = 0;
 		
 		//My variables
-		double salary = 25000;
+		double salary = 18500;
 		
 		
 		
