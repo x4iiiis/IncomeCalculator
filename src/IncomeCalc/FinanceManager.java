@@ -2,10 +2,13 @@ package IncomeCalc;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,8 +21,10 @@ public class FinanceManager {
 	//Finance Manager singleton contains the lists of all the bills and reasons to save
 	//This keeps the code tidy and keeps the lists out of the way of the functionality program code
 	private static List<Bill> BillList = new ArrayList<Bill>();
+	//private static List<Bill> BillsPaid = new ArrayList<Bill>();
+	//private static List<Bill> BillToPay = new ArrayList<Bill>();
 	private static List<ReasonToSave> SaveList = new ArrayList<ReasonToSave>();
-	static Income inc = new Income();
+	private Income inc = new Income();
 	
 	static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
@@ -36,6 +41,25 @@ public class FinanceManager {
 	//Things the FinanceManager should do as soon as it is instantiated
 	FinanceManager() throws FileNotFoundException
 	{	
+		setupIncome();
+		setupBills();
+		//payBills(); 	// don't call this here, call it from the calc but I'm just putting it here so I don't forget it
+		
+		
+		
+		
+			
+		/*System.out.println("Collections.sort:");
+		for(Bill b : BillList)
+		{
+			System.out.println(b.billName + " is due: " + b.nextPayment);
+		}
+		System.out.println("End sort\n\n\n"); */
+	}
+	
+	
+	void setupIncome() throws FileNotFoundException
+	{
 		//Get the salary info
 		//Read .csv file
 		Scanner SalaryReader = new Scanner(new File("Income.csv"));
@@ -57,7 +81,7 @@ public class FinanceManager {
 			String data = SalaryReader.nextLine();
             String [] arr = data.split(",");
 			
-            System.out.println(data);
+            //System.out.println(data);
             
 			
 			inc.Salary = Double.parseDouble(arr[0]);
@@ -72,8 +96,8 @@ public class FinanceManager {
             }
 			
 		}
-		System.out.println();
-		System.out.println();
+		//System.out.println();
+		//System.out.println();
 		SalaryReader.close();
 		
 		//While there are unpaid months on record, loop through payment dates
@@ -83,8 +107,10 @@ public class FinanceManager {
 		}
 		inc.NextPayday = inc.LastPayday.plusMonths(inc.MonthsBetweenWages); //nextPayment isn't in the csv, but it doesn't need to be. I guess it could be, but it'd be a waste of space
 		
-		
-		
+	}
+	
+	void setupBills() throws FileNotFoundException
+	{
 		//Get bill info
 		//Read .csv file
 		Scanner BillsReader = new Scanner(new File("BillsPrototype.csv"));
@@ -95,7 +121,7 @@ public class FinanceManager {
 		//for each line in the .csv (for each bill).
 		//Then, add these Bill objects to the BillList.
 		
-		Skip = 0; // Used to skip the first 2 rows of the csv
+		int Skip = 0; // Used to skip the first 2 rows of the csv
 		while(BillsReader.hasNext())
 		{
 			while(Skip < 4)
@@ -115,8 +141,8 @@ public class FinanceManager {
             B.lastPayment = LocalDate.parse(arr[3], dateFormatter);
 			BillList.add(B);
 		}
-		System.out.println();
-		System.out.println();
+		//System.out.println();
+		//System.out.println();
 		BillsReader.close();
 		
 		
@@ -136,33 +162,74 @@ public class FinanceManager {
 			}
 			b.nextPayment = b.lastPayment.plusMonths(b.monthsBetweenPayments); //nextPayment isn't in the csv, but it doesn't need to be. I guess it could be, but it'd be a waste of space
 			
-			System.out.println(b.billName + " last paid " + b.lastPayment);
+			//System.out.println(b.billName + " last paid " + b.lastPayment);
 		}
 		
-		System.out.println();
+		//Sort the bills list by date of next payment
+		Collections.sort(BillList, new Comparator<Bill>() {
+			public int compare(Bill b1, Bill b2) 
+			{
+				if(b1.nextPayment.isBefore(b2.nextPayment))
+				{
+					return 1;
+				}
+				else
+				{
+					return -1;
+				}
+			}
+		});
+	}
+	
+	
+	double[] payBills()
+	{
+		//Decimal formatter
+		DecimalFormat df = new DecimalFormat("#.##");	//Fix decimal formatting
+		
+		//Totals for how much has and has not yet been paid this wage
+		double paid = 0;
+		double unpaid = 0;
+		
+		//System.out.println();
 		//System.out.println(inc.NextPayday + " <--- inc.NextPayday");
 		
-		System.out.println("\n\nOkay now it's time to check which fall between your last payday and today\n\n");
+		//System.out.println("\n\nOkay now it's time to check which fall between your last payday and today\n\n");
 		
 		for(Bill b : BillList)
 		{
 			//System.out.println(b.nextPayment + " <--" + b.billName + " next payment");
 			if(b.nextPayment.isBefore(inc.NextPayday))
 			{
-				System.out.println(b.billName + " is still to be paid on this wage:");
-				System.out.println("Due: " + b.nextPayment + "\nWage: " + inc.NextPayday + "\n");
+				unpaid += b.billAmount;
+				System.out.println(b.billName + " is still to be paid on this wage (" +
+					dateFormatter.format(b.nextPayment) + "):\n£" + df.format(b.billAmount));
+				//System.out.println("Due: " + b.nextPayment + "\nWage: " + inc.NextPayday + "\n");
 			}
 			else
 			{
-				System.out.println(b.billName + " has already been paid on this wage:");
-				System.out.println("Due: " + b.nextPayment + "\nWage: " + inc.NextPayday + "\n");
+				//Need this to prevent long-term (like x4iiiis.com) saying it has been paid on this wage if it hasn't
+				if(!(b.lastPayment.isBefore(inc.LastPayday)))
+				{
+					paid += b.billAmount;
+					System.out.println(b.billName + " has already been paid on this wage (" +
+						dateFormatter.format(b.lastPayment) + "):\n£" + df.format(b.billAmount));
+					//System.out.println("Due: " + b.nextPayment + "\nWage: " + inc.NextPayday + "\n");
+				}
 			}
+			System.out.println();
 		}
 		
-		
+		double[] totals = {paid,unpaid};
+		return totals;
 	}
 	
 	
+	
+	public Income GetIncome()
+	{
+		return inc;
+	}
 	
 	public List<Bill> getBillList()
 	{
@@ -186,7 +253,7 @@ public class FinanceManager {
 		SaveList = AmendedSaveList;
 	}
 	
-	public static void payBills(List<Bill> BillList)
+	/*public static void payBills(List<Bill> BillList)
 	{
 		for (int i = 0; i < BillList.size(); i++)
 		{
@@ -196,5 +263,5 @@ public class FinanceManager {
 			System.out.println(BillList.get(i).billName + "\t\t\t\t\t" + dateFormatter.format(BillList.get(i).lastPayment));
 			//For now I'm just gonna use this to test the reading of dates from csv
 		}
-	}
+	}*/
 }
