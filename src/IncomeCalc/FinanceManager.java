@@ -23,10 +23,12 @@ public class FinanceManager {
 	private static List<Bill> BillList = new ArrayList<Bill>();
 	//private static List<Bill> BillsPaid = new ArrayList<Bill>();
 	//private static List<Bill> BillToPay = new ArrayList<Bill>();
-	private static List<ReasonToSave> SaveList = new ArrayList<ReasonToSave>();
+	private static List<SavingsTarget> SaveList = new ArrayList<SavingsTarget>();
 	private Income inc = new Income();
 	
 	static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	//Decimal formatter
+	DecimalFormat df = new DecimalFormat("#.##");	//Fix decimal formatting
 	
 	//FinanceManager is a singleton
 	public static FinanceManager getInstance() throws FileNotFoundException
@@ -45,7 +47,7 @@ public class FinanceManager {
 		setupBills();
 		//payBills(); 	// don't call this here, call it from the calc but I'm just putting it here so I don't forget it
 		
-		
+		setupSavingsGoals();
 		
 		
 			
@@ -226,6 +228,117 @@ public class FinanceManager {
 	
 	
 	
+	
+	
+	
+	void setupSavingsGoals() throws FileNotFoundException 
+	{
+		//Get bill info
+		//Read .csv file
+		Scanner GoalsReader = new Scanner(new File("SavingsGoals.csv"));
+		GoalsReader.useDelimiter(",");
+				
+		//Gather every bill from the .csv file, separate the name and amount by the comma
+		//and then assign them to the corresponding variable of the new Bill object created
+		//for each line in the .csv (for each bill).
+		//Then, add these Bill objects to the BillList.
+		
+		int Skip = 0; // Used to skip the first row of the csv
+		while(GoalsReader.hasNext())
+		{
+			while(Skip < 1)
+			{
+				GoalsReader.nextLine();
+				Skip++;
+			}
+			String data = GoalsReader.nextLine();
+            String [] arr = data.split(",");
+			
+            //System.out.println(data);
+            
+			SavingsTarget st = new SavingsTarget();
+			st.targetName = arr[0];
+            st.targetAmount = Double.parseDouble(arr[1]);
+            st.targetDate = LocalDate.parse(arr[2], dateFormatter);
+			SaveList.add(st);
+		}
+		//System.out.println();
+		//System.out.println();
+		GoalsReader.close();
+		
+				
+		//Sort the savings list soonest first
+		Collections.sort(SaveList, new Comparator<SavingsTarget>() {
+			public int compare(SavingsTarget st1, SavingsTarget st2) 
+			{
+				if(st1.targetDate.isBefore(st2.targetDate))
+				{
+					return -1;
+				}
+				else
+				{
+					return 1;
+				}
+			}
+		});
+		/*
+		for( SavingsTarget Goal : SaveList)
+		{
+			System.out.println(Goal.targetName + "\t\t" + Goal.targetAmount + "\t" + Goal.targetDate);
+		}
+		System.out.println();
+		*/
+	}
+	
+	
+	void workoutSavingsRequirements(double remainingWage)
+	{
+		Scanner reader = new Scanner(System.in);  // Reading from System.in
+		System.out.println("\nLet's calculate your savings goals.");
+		System.out.println("How much have you already saved?");
+		double savingsSoFar = reader.nextDouble(); 
+		reader.close();
+		//Starting to work with taking in previous savings.. isn't started yet (committing now)
+		
+		
+		//Trying to reverse engineer the whole dates scenario based on how the bills update if you leave it for a while
+		int paydaysToTargetDate = 0;
+		List<LocalDate> Paydays = new ArrayList<LocalDate>();
+		
+
+		System.out.println("\nBearing in mind that you have already saved £" + df.format(savingsSoFar) + ":");
+		
+		double totalSavingsRequirement = 0;
+		for (SavingsTarget Goal : SaveList)
+		{
+			int i = 0;
+			paydaysToTargetDate = 0;
+			
+			while(!(inc.NextPayday.plusMonths(i).isAfter(Goal.targetDate)))
+			{
+				paydaysToTargetDate++;
+				Paydays.add(inc.NextPayday.plusMonths(i));
+				i++;
+			}
+			
+			System.out.println("In order to save £" + df.format(Goal.targetAmount) + " by " +  
+					dateFormatter.format(Goal.targetDate) + " for " + Goal.targetName + 
+					", you need to save £" + df.format((Goal.targetAmount / paydaysToTargetDate)) + 
+					" per month.");
+			totalSavingsRequirement += (Goal.targetAmount / paydaysToTargetDate);
+		}
+		System.out.println("\nThe quickest way to achieve all " + SaveList.size() + 
+				" savings goals would be to save a monthly amount of £" + 
+				df.format(totalSavingsRequirement) + ".");
+		
+		System.out.println("Doing so would result in a wage remainder of £" 
+				+ df.format(remainingWage - totalSavingsRequirement) + ".");
+	}
+	
+	
+	
+	
+	
 	public Income GetIncome()
 	{
 		return inc;
@@ -243,25 +356,13 @@ public class FinanceManager {
 	
 	
 	
-	public List<ReasonToSave> getSaveList()
+	public List<SavingsTarget> getSaveList()
 	{
 		return SaveList;
 	}
 	
-	public static void SetSaveList(List<ReasonToSave> AmendedSaveList)
+	public static void SetSaveList(List<SavingsTarget> AmendedSaveList)
 	{
 		SaveList = AmendedSaveList;
 	}
-	
-	/*public static void payBills(List<Bill> BillList)
-	{
-		for (int i = 0; i < BillList.size(); i++)
-		{
-			//If bill has been paid between payday and today, call pay()
-			//Dunno if that'll work actually cause pay takes in 'remaining income'
-			//Which means we're probably gonna have to refactor the whole thing to make remaining income a static variable
-			System.out.println(BillList.get(i).billName + "\t\t\t\t\t" + dateFormatter.format(BillList.get(i).lastPayment));
-			//For now I'm just gonna use this to test the reading of dates from csv
-		}
-	}*/
 }

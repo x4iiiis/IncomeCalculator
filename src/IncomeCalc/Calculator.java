@@ -74,6 +74,19 @@ public class Calculator
 				" in bills each month, excluding bills that are paid less often than once a month.");
 		
 		System.out.println("Those bills are:"); // List bills that are paid further into the future. Just x4iiiis.com atm
+		System.out.println("\t[insert long-term bills here]");
+		
+		
+		//Now for savings
+		System.out.println("\n\n\t\tReasons to Save\n");
+		//Not really but theoretical, might be true in future
+		System.out.println("You have another direct debit; You pay ~£250 a month to your Santander account,"
+			+ " which leaves you with £" + df.format(wage - 250) + ".");
+		//Apply that
+		wage -= 250;
+		
+		//actual savings...
+		FM.workoutSavingsRequirements(wage);
 	}
 
 
