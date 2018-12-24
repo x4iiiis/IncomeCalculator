@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -295,22 +296,52 @@ public class FinanceManager {
 	{
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
 		System.out.println("\nLet's calculate your savings goals.");
-		System.out.println("How much have you already saved?");
-		double savingsSoFar = reader.nextDouble(); 
+		double savingsSoFar = 0.0;
+		
+		//loop until successful
+		while (true) 
+		{
+	        try 
+	        {
+	        	System.out.print("How much have you already saved?\t£");
+	    		savingsSoFar = reader.nextDouble();
+	        	break;
+	        }
+	        catch (InputMismatchException e) 
+	        {
+	        	System.out.println("\t\t\t\tInvalid input; Press enter to try again.\n");
+	        	reader.next(); //clears the reader to prevent infinite loop if validation fails
+	        }
+		}
 		reader.close();
-		//Starting to work with taking in previous savings.. isn't started yet (committing now)
 		
 		
 		//Trying to reverse engineer the whole dates scenario based on how the bills update if you leave it for a while
 		int paydaysToTargetDate = 0;
 		List<LocalDate> Paydays = new ArrayList<LocalDate>();
 		
-
-		System.out.println("\nBearing in mind that you have already saved £" + df.format(savingsSoFar) + ":");
+		if(savingsSoFar > 0)
+		{
+			System.out.println("\nBearing in mind that you have already saved £" + df.format(savingsSoFar) + ":");
+		}
+		System.out.println();
 		
 		double totalSavingsRequirement = 0;
 		for (SavingsTarget Goal : SaveList)
 		{
+			//Working with pre-made savings
+			if(savingsSoFar < Goal.targetAmount)
+			{
+				Goal.targetAmount -= savingsSoFar;
+				savingsSoFar = 0;
+			}
+			else
+			{
+				savingsSoFar -= Goal.targetAmount;
+				Goal.targetAmount = 0;
+			}
+			
+			
 			int i = 0;
 			paydaysToTargetDate = 0;
 			
@@ -321,18 +352,33 @@ public class FinanceManager {
 				i++;
 			}
 			
-			System.out.println("In order to save £" + df.format(Goal.targetAmount) + " by " +  
-					dateFormatter.format(Goal.targetDate) + " for " + Goal.targetName + 
-					", you need to save £" + df.format((Goal.targetAmount / paydaysToTargetDate)) + 
-					" per month.");
+			if(Goal.targetAmount > 0)
+			{
+				System.out.println("In order to save £" + df.format(Goal.targetAmount) + " by " +  
+						dateFormatter.format(Goal.targetDate) + " for " + Goal.targetName + 
+						", you need to save £" + df.format((Goal.targetAmount / paydaysToTargetDate)) + 
+						" per month.");
+			}
+			else
+			{
+				System.out.println("You have already saved up for " + Goal.targetName + ".");
+			}
 			totalSavingsRequirement += (Goal.targetAmount / paydaysToTargetDate);
 		}
-		System.out.println("\nThe quickest way to achieve all " + SaveList.size() + 
-				" savings goals would be to save a monthly amount of £" + 
-				df.format(totalSavingsRequirement) + ".");
-		
-		System.out.println("Doing so would result in a wage remainder of £" 
-				+ df.format(remainingWage - totalSavingsRequirement) + ".");
+		if(totalSavingsRequirement > 0)
+		{
+			System.out.println("\nThe quickest way to achieve all " + SaveList.size() + 
+					" savings goals would be to save a monthly amount of £" + 
+					df.format(totalSavingsRequirement) + ".");
+			
+			System.out.println("Doing so would result in a wage remainder of £" 
+					+ df.format(remainingWage - totalSavingsRequirement) + ".");
+		}
+		else
+		{
+			System.out.println("\nYou have nothing to save for!");
+			System.out.println("\nEither add a savings goal, or have fun with your £" + remainingWage + "!");
+		}
 	}
 	
 	
