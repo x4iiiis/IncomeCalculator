@@ -65,7 +65,7 @@ public class Calculator
 		//Apply that calculation
 		wage -= billTotals[0];
 		
-		System.out.println("Before your next payday, you will pay a further £" + billTotals[1]
+		System.out.println("Before your next payday, you will pay a further £" + df.format(billTotals[1])
 				+ ", and your remaining wage will be £" + df.format((wage - billTotals[1])) + ".");
 		//Apply that calculation
 		wage -= billTotals[1];

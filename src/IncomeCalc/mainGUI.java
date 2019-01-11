@@ -361,6 +361,94 @@ public class mainGUI {
 					double totalCash = Double.parseDouble(doc.getElementsByTagName("TotalCash").item(0).getTextContent());
 					System.out.println("\n\tTotal:\t£" + df.format(totalCash));
 					System.out.println();
+					
+					
+					//Banking stuff
+					//Might make this a method later as this could get minging
+					//As predicted, the code that follows is utterly digusting. Going to print something to bear in mind
+					System.out.println("\n\n\nBank bag allowances:");
+					System.out.println("£20\t\t£1 & £2 coins");
+					System.out.println("£10\t\t50p & 20p coins");
+					System.out.println("£5\t\t10p & 5p coins");
+					System.out.println("£1\t\t2p & 1p coins");
+
+					
+					System.out.println("\n\nLet's check what change you are currently able to bank...\n");
+					
+					//If £2 coins are bankable
+					if((Double.parseDouble(Totals.item(5).getTextContent()) / 10) > 0)
+					{
+						System.out.println("You can bank " + 
+								(int)Math.floor(Double.parseDouble(Totals.item(5).getTextContent()) / 10) 
+								+ " bags of £2 coins.\t\t(£" 
+								+  (int)Math.floor(Double.parseDouble(Totals.item(5).getTextContent()) / 10) * 20
+								+ ")");
+					}
+					//If £1 coins are bankable
+					if((Double.parseDouble(Totals.item(6).getTextContent()) / 20) > 0)
+					{
+						System.out.println("You can bank " + 
+								(int)Math.floor(Double.parseDouble(Totals.item(6).getTextContent()) / 20) 
+								+ " bags of £1 coins.\t\t(£" 
+								+  (int)Math.floor(Double.parseDouble(Totals.item(6).getTextContent()) / 20) * 20
+								+ ")");
+					}
+					//If 50p coins are bankable
+					if(((Double.parseDouble(Totals.item(7).getTextContent()) /.5) / 20) > 0)
+					{
+						System.out.println("You can bank " + 
+								(int)Math.floor((Double.parseDouble(Totals.item(7).getTextContent()) /.5) / 20) 
+								+ " bags of 50p coins.\t\t(£" 
+								+  (int)Math.floor((Double.parseDouble(Totals.item(7).getTextContent()) /.5) / 20) * 10
+								+ ")");
+					}
+					//If 20p coins are bankable
+					if(((Double.parseDouble(Totals.item(8).getTextContent()) /.2) / 50) > 0)
+					{
+						System.out.println("You can bank " + 
+								(int)Math.floor((Double.parseDouble(Totals.item(8).getTextContent()) /.2) / 50) 
+								+ " bags of 20p coins.\t\t(£" 
+								+  (int)Math.floor((Double.parseDouble(Totals.item(8).getTextContent()) /.2) / 50) * 10
+								+ ")");
+					}
+					//If 10p coins are bankable
+					if(((Double.parseDouble(Totals.item(9).getTextContent()) /.1) / 50) > 0)
+					{
+						System.out.println("You can bank " + 
+								(int)Math.floor((Double.parseDouble(Totals.item(9).getTextContent()) /.1) / 50) 
+								+ " bags of 10p coins.\t\t(£" 
+								+  (int)Math.floor((Double.parseDouble(Totals.item(9).getTextContent()) /.1) / 50) * 5
+								+ ")");
+					}
+					//If 5p coins are bankable
+					if(((Double.parseDouble(Totals.item(10).getTextContent()) /.05) / 100) > 0)
+					{
+						System.out.println("You can bank " + 
+								(int)Math.floor((Double.parseDouble(Totals.item(10).getTextContent()) /.05) / 100) 
+								+ " bags of 5p coins.\t\t(£" 
+								+  (int)Math.floor((Double.parseDouble(Totals.item(10).getTextContent()) /.05) / 100) * 5
+								+ ")");
+					}
+					//If 2p coins are bankable
+					if(((Double.parseDouble(Totals.item(11).getTextContent()) /.02) / 50) > 0)
+					{
+						System.out.println("You can bank " + 
+								(int)Math.floor((Double.parseDouble(Totals.item(11).getTextContent()) /.02) / 50) 
+								+ " bags of 2p coins.\t\t(£" 
+								+  (int)Math.floor((Double.parseDouble(Totals.item(11).getTextContent()) /.01) / 100)
+								+ ")");
+					}
+					//If 1p coins are bankable
+					if(((Double.parseDouble(Totals.item(12).getTextContent()) /.01) / 100) > 0)
+					{
+						System.out.println("You can bank " + 
+								(int)Math.floor((Double.parseDouble(Totals.item(12).getTextContent()) /.01) / 100) 
+								+ " bags of 1p coins.\t\t(£" 
+								+  (int)Math.floor((Double.parseDouble(Totals.item(12).getTextContent()) /.01) / 100)
+								+ ")");
+					}
+					
+					System.out.println("\nBear in mind that you can bank 10 bags of coins per day.");
 				}
 				catch(ParserConfigurationException | SAXException | IOException Ex)
 				{
