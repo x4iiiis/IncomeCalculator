@@ -28,6 +28,7 @@ import java.io.File;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 public class WithdrawGUI extends JFrame {
 
@@ -71,6 +72,12 @@ public class WithdrawGUI extends JFrame {
 		txtDeposit.setBounds(109, 270, 130, 26);
 		contentPane.add(txtDeposit);
 		txtDeposit.setColumns(10);
+
+		JCheckBox cboxBankBags = new JCheckBox("Bank bags");
+		cboxBankBags.setEnabled(false);
+		cboxBankBags.setHorizontalAlignment(SwingConstants.CENTER);
+		cboxBankBags.setBounds(109, 289, 128, 23);
+		contentPane.add(cboxBankBags);
 		
 		
 		
@@ -143,6 +150,8 @@ public class WithdrawGUI extends JFrame {
 		radioNotes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				cboxBankBags.setEnabled(false);
+				
 				radio100Pound.setVisible(true);
 				radio50Pound.setVisible(true);
 				radio20Pound.setVisible(true);
@@ -179,6 +188,9 @@ public class WithdrawGUI extends JFrame {
 		JRadioButton radioCoins = new JRadioButton("Coins");
 		radioCoins.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				cboxBankBags.setEnabled(true);
+				
 				radio100Pound.setVisible(false);
 				radio50Pound.setVisible(false);
 				radio20Pound.setVisible(false);
@@ -297,31 +309,63 @@ public class WithdrawGUI extends JFrame {
 						// Check that a valid input has been given
 						try {
 							double Amount = Double.parseDouble(txtDeposit.getText());
-						
-							//Check which coin is being deposited
-							if(radio2Pound.isSelected()) {
-								intQuantities[5] -= Amount;
+							
+							//If the user wishes to withdraw coins by entering a quantity of bank bags
+							//rather than the actual amount of coins, the bank bags checkbox allows them
+							//to do so, and this if statement handles the conversion
+							if(cboxBankBags.isSelected()) {
+								//Check which coin is being deposited
+								if(radio2Pound.isSelected()) {
+									intQuantities[5] -= (Amount * 10);
+								}
+								if(radio1Pound.isSelected()) {
+									intQuantities[6] -= (Amount * 20);
+								}
+								if(radio50Pence.isSelected()) {
+									intQuantities[7] -= (Amount * 20);
+								}
+								if(radio20Pence.isSelected()) {
+									intQuantities[8] -= (Amount * 50);
+								}
+								if(radio10Pence.isSelected()) {
+									intQuantities[9] -= (Amount * 50);
+								}
+								if(radio5Pence.isSelected()) {
+									intQuantities[10] -= (Amount * 100);
+								}
+								if(radio2Pence.isSelected()) {
+									intQuantities[11] -= (Amount * 50);
+								}
+								if(radio1Pence.isSelected()) {
+									intQuantities[12] -= (Amount * 100);
+								}
 							}
-							if(radio1Pound.isSelected()) {
-								intQuantities[6] -= Amount;
-							}
-							if(radio50Pence.isSelected()) {
-								intQuantities[7] -= Amount;
-							}
-							if(radio20Pence.isSelected()) {
-								intQuantities[8] -= Amount;
-							}
-							if(radio10Pence.isSelected()) {
-								intQuantities[9] -= Amount;
-							}
-							if(radio5Pence.isSelected()) {
-								intQuantities[10] -= Amount;
-							}
-							if(radio2Pence.isSelected()) {
-								intQuantities[11] -= Amount;
-							}
-							if(radio1Pence.isSelected()) {
-								intQuantities[12] -= Amount;
+							else {
+								//Check which coin is being deposited
+								if(radio2Pound.isSelected()) {
+									intQuantities[5] -= Amount;
+								}
+								if(radio1Pound.isSelected()) {
+									intQuantities[6] -= Amount;
+								}
+								if(radio50Pence.isSelected()) {
+									intQuantities[7] -= Amount;
+								}
+								if(radio20Pence.isSelected()) {
+									intQuantities[8] -= Amount;
+								}
+								if(radio10Pence.isSelected()) {
+									intQuantities[9] -= Amount;
+								}
+								if(radio5Pence.isSelected()) {
+									intQuantities[10] -= Amount;
+								}
+								if(radio2Pence.isSelected()) {
+									intQuantities[11] -= Amount;
+								}
+								if(radio1Pence.isSelected()) {
+									intQuantities[12] -= Amount;
+								}
 							}
 						}
 						catch (Exception InvalidInput) {
