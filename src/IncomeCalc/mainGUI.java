@@ -376,7 +376,7 @@ public class mainGUI {
 					System.out.println("\n\nLet's check what change you are currently able to bank...\n");
 					
 					//If £2 coins are bankable
-					if((Double.parseDouble(Totals.item(5).getTextContent()) / 10) > 0)
+					if((Double.parseDouble(Totals.item(5).getTextContent()) / 10) >=1 )
 					{
 						System.out.println("You can bank " + 
 								(int)Math.floor(Double.parseDouble(Totals.item(5).getTextContent()) / 10) 
@@ -385,7 +385,7 @@ public class mainGUI {
 								+ ")");
 					}
 					//If £1 coins are bankable
-					if((Double.parseDouble(Totals.item(6).getTextContent()) / 20) > 0)
+					if((Double.parseDouble(Totals.item(6).getTextContent()) / 20) >= 1)
 					{
 						System.out.println("You can bank " + 
 								(int)Math.floor(Double.parseDouble(Totals.item(6).getTextContent()) / 20) 
@@ -394,7 +394,7 @@ public class mainGUI {
 								+ ")");
 					}
 					//If 50p coins are bankable
-					if(((Double.parseDouble(Totals.item(7).getTextContent()) /.5) / 20) > 0)
+					if(((Double.parseDouble(Totals.item(7).getTextContent()) /.5) / 20) >= 1)
 					{
 						System.out.println("You can bank " + 
 								(int)Math.floor((Double.parseDouble(Totals.item(7).getTextContent()) /.5) / 20) 
@@ -403,7 +403,7 @@ public class mainGUI {
 								+ ")");
 					}
 					//If 20p coins are bankable
-					if(((Double.parseDouble(Totals.item(8).getTextContent()) /.2) / 50) > 0)
+					if(((Double.parseDouble(Totals.item(8).getTextContent()) /.2) / 50) >= 1)
 					{
 						System.out.println("You can bank " + 
 								(int)Math.floor((Double.parseDouble(Totals.item(8).getTextContent()) /.2) / 50) 
@@ -412,7 +412,7 @@ public class mainGUI {
 								+ ")");
 					}
 					//If 10p coins are bankable
-					if(((Double.parseDouble(Totals.item(9).getTextContent()) /.1) / 50) > 0)
+					if(((Double.parseDouble(Totals.item(9).getTextContent()) /.1) / 50) >= 1)
 					{
 						System.out.println("You can bank " + 
 								(int)Math.floor((Double.parseDouble(Totals.item(9).getTextContent()) /.1) / 50) 
@@ -421,7 +421,7 @@ public class mainGUI {
 								+ ")");
 					}
 					//If 5p coins are bankable
-					if(((Double.parseDouble(Totals.item(10).getTextContent()) /.05) / 100) > 0)
+					if(((Double.parseDouble(Totals.item(10).getTextContent()) /.05) / 100) >= 1)
 					{
 						System.out.println("You can bank " + 
 								(int)Math.floor((Double.parseDouble(Totals.item(10).getTextContent()) /.05) / 100) 
@@ -430,7 +430,7 @@ public class mainGUI {
 								+ ")");
 					}
 					//If 2p coins are bankable
-					if(((Double.parseDouble(Totals.item(11).getTextContent()) /.02) / 50) > 0)
+					if(((Double.parseDouble(Totals.item(11).getTextContent()) /.02) / 50) >= 1)
 					{
 						System.out.println("You can bank " + 
 								(int)Math.floor((Double.parseDouble(Totals.item(11).getTextContent()) /.02) / 50) 
@@ -439,7 +439,7 @@ public class mainGUI {
 								+ ")");
 					}
 					//If 1p coins are bankable
-					if(((Double.parseDouble(Totals.item(12).getTextContent()) /.01) / 100) > 0)
+					if(((Double.parseDouble(Totals.item(12).getTextContent()) /.01) / 100) >= 1)
 					{
 						System.out.println("You can bank " + 
 								(int)Math.floor((Double.parseDouble(Totals.item(12).getTextContent()) /.01) / 100) 
