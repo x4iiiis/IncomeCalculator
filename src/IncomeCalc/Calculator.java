@@ -31,19 +31,11 @@ public class Calculator
 		System.out.println("\t\tSalary & Taxes\n");
 		
 		System.out.println("Salary:\t\t\t\t\t£" + df.format(salary));
-		//System.out.println("Tax Rate:\t\t\t\t" + getIncomeTax(salary) + "%");
 
-		
 		System.out.println("Income Tax Deduction:\t\t\t£" + df.format(getIncomeTax(salary)));
-		//Pass salary to obtain percentage, then apply it to the taxable income (above £11,500 threshold)
-		//Take this off Salary, to obtain post-tax salary
+		
 		double income = salary - (getIncomeTax(salary));
 		System.out.println("Post-Income Tax Salary:\t\t\t£" + df.format(income));
-		
-		//System.out.println("Post-Tax Salary:\t\t\t£" + df.format(income));
-		
-		//Applying the national insurance rate to the salary minus the 162 threshold, and removing it from the salary
-		//Income = Income - (GetNationalInsuranceRate(Salary) * (Salary - (162*52)));
 		
 		System.out.println("National Insurance Deduction:\t\t£" + df.format(calculateNationalInsurance(salary)));
 		income -= calculateNationalInsurance(salary);
@@ -51,9 +43,7 @@ public class Calculator
 		System.out.println("Post National Insurance Salary:\t\t£" + df.format(income));
 		
 		double wage = income / 12;
-		System.out.println("Wage:\t\t\t\t\t£" + df.format(wage));
-		
-		System.out.println();
+		System.out.println("Monthly Wage:\t\t\t\t£" + df.format(wage) + "\n");
 		
 		
 		System.out.println("\n\t\tBills & Direct Debits");
@@ -100,6 +90,12 @@ public class Calculator
 		
 		//	2019/20 Scottish Income Tax Bands
 		double personalAllowance = 12500;
+		double StarterRateMinimum = 12500;
+		double BasicRateMinimum = 14594;
+		double IntermediateRateMinimum = 24944;
+		double HigherRateMinimum = 43430;
+		double TopRateMinimum = 150000;
+		//	2019/20 Scottish Income Tax Band Percentages
 		double starterRate = 0.19;
 		double basicRate = 0.2;
 		double intermediateRate = 0.21;
@@ -114,109 +110,64 @@ public class Calculator
 		}
 		
 		//StarterRate Band
-		if(salary > personalAllowance)
+		if(salary > StarterRateMinimum)
 		{
-			if(salary <= 14549)
+			if(salary <= BasicRateMinimum)
 			{
-				TaxDeduction += 14549 - (salary - personalAllowance) * starterRate;
+				TaxDeduction += BasicRateMinimum - (salary - personalAllowance) * starterRate;
 			}
 			else
 			{
-				TaxDeduction += (14549 - 12500) * starterRate;
+				TaxDeduction += (BasicRateMinimum - StarterRateMinimum) * starterRate;
 			}
 		}
 		
 		//Basic Rate Band
-		if(salary > 14549)
+		if(salary > BasicRateMinimum)
 		{
-			if(salary <= 24944)
+			if(salary <= IntermediateRateMinimum)
 			{
-				TaxDeduction += (salary - 14549) * basicRate;
-				//TaxDeduction += ((24944 - salary) - 14549) * basicRate;
+				TaxDeduction += (salary - BasicRateMinimum) * basicRate;
 			}
 			else
 			{
-				TaxDeduction += (24944 - 14549) * basicRate;
+				TaxDeduction += (IntermediateRateMinimum - BasicRateMinimum) * basicRate;
 			}
 		}
 		
 		//Intermediate Rate
-		if(salary > 24944)
+		if(salary > IntermediateRateMinimum)
 		{
-			if(salary <= 43430)
+			if(salary <= HigherRateMinimum)
 			{
-				TaxDeduction += (salary - 24944) * intermediateRate;
+				TaxDeduction += (salary - IntermediateRateMinimum) * intermediateRate;
 			}
 			else
 			{
-				TaxDeduction += (43430 - 24944) * intermediateRate;
+				TaxDeduction += (HigherRateMinimum - IntermediateRateMinimum) * intermediateRate;
 			}
 		}
 		
 		//Higher Rate
-		if(salary > 43430)
+		if(salary > HigherRateMinimum)
 		{
-			if(salary <= 15000)
+			if(salary <= TopRateMinimum)
 			{
-				TaxDeduction += (salary - 43430) * higherRate;
+				TaxDeduction += (salary - HigherRateMinimum) * higherRate;
 			}
 			else
 			{
-				TaxDeduction += (150000 - 43430) * higherRate;
+				TaxDeduction += (TopRateMinimum - HigherRateMinimum) * higherRate;
 			}
 		}
 		
 		//Top Rate
-		if(salary > 150000)
+		if(salary > TopRateMinimum)
 		{
-			TaxDeduction += (salary - 150000) * topRate;
+			TaxDeduction += (salary - TopRateMinimum) * topRate;
 		}
 		
 		return TaxDeduction;
-		
-		
-		
-		/*
-		double taxRate = 0;
-		
-		//Incomes up to £11,500 are tax-free
-		if(salary <= 12500)
-		{
-			taxRate = 0.0;
-		}
-		
-		//Starter rate (19%) is between 12500 and 14549
-		if(salary >= 12500 && salary <= 14549)
-		{
-			taxRate = 0.19;
-		}
-		
-		//Basic rate is 20% on incomes from £14549 to £24944
-		if(salary > 14549 && salary <= 24944)
-		{
-			taxRate = 0.2;
-		}
-		
-		//Intermediate rate (21%) is between 24944 and 43430
-		if(salary > 24944 && salary <= 43430)
-		{
-			taxRate = 0.21;
-		}
-		
-		//Higher rate is 41% on incomes from £43,431 to £150,000
-		if(salary >= 43431 && salary <= 150000)
-		{
-			taxRate = 0.41;
-		}
-		
-		//Top rate is 45% on incomes over £150,000
-		if(salary > 150000)
-		{
-			taxRate = 0.46;
-		}
-		
-		return taxRate;
-		*/
 	}
 	
 	
