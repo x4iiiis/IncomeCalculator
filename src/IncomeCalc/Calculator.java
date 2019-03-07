@@ -23,6 +23,7 @@ public class Calculator
 		
 		//My variables
 		double salary = FM.GetIncome().Salary;
+		salary = 18000; //Testing purposes
 		
 		//Decimal formatter
 		DecimalFormat df = new DecimalFormat("#.##");	//Fix decimal formatting

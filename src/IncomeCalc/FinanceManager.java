@@ -139,7 +139,16 @@ public class FinanceManager {
             
 			Bill B = new Bill();
 			B.billName = arr[0];
-            B.billAmount = Double.parseDouble(arr[1]);
+			
+			try {
+				B.billAmount = Double.parseDouble(arr[1]);
+			}
+			catch(Exception DollarSign)	//Heroku is paid in USD, so I'm cutting the $ out of the csv result and converting it
+			{
+				B.billAmount = CurrencyConverter.GetExchangeRate() * Double.parseDouble(arr[1].substring(1));
+			}
+            
+            
             B.monthsBetweenPayments = Integer.parseInt(arr[2]);
             B.lastPayment = LocalDate.parse(arr[3], dateFormatter);
 			BillList.add(B);
