@@ -210,26 +210,29 @@ public class FinanceManager {
 		
 		for(Bill b : BillList)
 		{
-			//System.out.println(b.nextPayment + " <--" + b.billName + " next payment");
-			if(b.nextPayment.isBefore(inc.NextPayday))
+			if(b.billAmount > 0)	//Only bother printing bills that actually have a value
 			{
-				unpaid += b.billAmount;
-				System.out.println(b.billName + " is still to be paid on this wage (" +
-					dateFormatter.format(b.nextPayment) + "):\n£" + df.format(b.billAmount));
-				//System.out.println("Due: " + b.nextPayment + "\nWage: " + inc.NextPayday + "\n");
-			}
-			else
-			{
-				//Need this to prevent long-term (like x4iiiis.com) saying it has been paid on this wage if it hasn't
-				if(!(b.lastPayment.isBefore(inc.LastPayday)))
+				//System.out.println(b.nextPayment + " <--" + b.billName + " next payment");
+				if(b.nextPayment.isBefore(inc.NextPayday))
 				{
-					paid += b.billAmount;
-					System.out.println(b.billName + " has already been paid on this wage (" +
-						dateFormatter.format(b.lastPayment) + "):\n£" + df.format(b.billAmount));
+					unpaid += b.billAmount;
+					System.out.println(b.billName + " is still to be paid on this wage (" +
+						dateFormatter.format(b.nextPayment) + "):\n£" + df.format(b.billAmount));
 					//System.out.println("Due: " + b.nextPayment + "\nWage: " + inc.NextPayday + "\n");
 				}
+				else
+				{
+					//Need this to prevent long-term (like x4iiiis.com) saying it has been paid on this wage if it hasn't
+					if(!(b.lastPayment.isBefore(inc.LastPayday)))
+					{
+						paid += b.billAmount;
+						System.out.println(b.billName + " has already been paid on this wage (" +
+							dateFormatter.format(b.lastPayment) + "):\n£" + df.format(b.billAmount));
+						//System.out.println("Due: " + b.nextPayment + "\nWage: " + inc.NextPayday + "\n");
+					}
+				}
+				System.out.println();
 			}
-			System.out.println();
 		}
 		
 		double[] totals = {paid,unpaid};
@@ -391,7 +394,10 @@ public class FinanceManager {
 	}
 	
 	
-	
+	public void UpdateIncome() throws FileNotFoundException
+	{
+		setupIncome();
+	}
 	
 	
 	public Income GetIncome()

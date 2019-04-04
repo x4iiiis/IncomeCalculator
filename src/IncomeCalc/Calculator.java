@@ -13,7 +13,7 @@ public class Calculator
 {
 	public static void calculate() throws FileNotFoundException 
 	{
-		//Create the Finance Manager
+		//Create / get the Finance Manager
 		FinanceManager FM = FinanceManager.getInstance();
 		
 		//Outside variables
@@ -23,7 +23,7 @@ public class Calculator
 		
 		//My variables
 		double salary = FM.GetIncome().Salary;
-		salary = 18000; //Testing purposes
+		//salary = 27000; //Testing purposes
 		
 		//Decimal formatter
 		DecimalFormat df = new DecimalFormat("#.##");	//Fix decimal formatting
