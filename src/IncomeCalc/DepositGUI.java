@@ -1,5 +1,4 @@
 package IncomeCalc;
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,7 +12,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.swing.ButtonGroup;
@@ -25,7 +23,6 @@ import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 

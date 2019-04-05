@@ -3,7 +3,6 @@ package IncomeCalc;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

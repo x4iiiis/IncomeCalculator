@@ -1,7 +1,6 @@
 package IncomeCalc;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Bill {
 	String billName;
