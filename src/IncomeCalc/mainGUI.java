@@ -283,6 +283,13 @@ public class mainGUI {
 			public void actionPerformed(ActionEvent e) {
 				
 				//Edit bills
+				try {
+					BillsGUI BGUI = new BillsGUI();
+					BGUI.setVisible(true);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnEditBills.setBounds(66, 51, 152, 29);
@@ -293,9 +300,8 @@ public class mainGUI {
 			public void actionPerformed(ActionEvent e) {
 				
 				//Edit salary
-				SalaryGUI SGUI;
 				try {
-					SGUI = new SalaryGUI();
+					SalaryGUI SGUI = new SalaryGUI();
 					SGUI.setVisible(true);
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block

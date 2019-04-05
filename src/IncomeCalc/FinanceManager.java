@@ -399,6 +399,11 @@ public class FinanceManager {
 		setupIncome();
 	}
 	
+	public void UpdateBills() throws FileNotFoundException
+	{
+		setupBills();
+	}
+	
 	
 	public Income GetIncome()
 	{

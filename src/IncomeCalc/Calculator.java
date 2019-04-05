@@ -13,7 +13,7 @@ public class Calculator
 {
 	public static void calculate() throws FileNotFoundException 
 	{
-		//Create / get the Finance Manager
+		//Create the Finance Manager
 		FinanceManager FM = FinanceManager.getInstance();
 		
 		//Outside variables
