@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 
@@ -14,9 +15,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JScrollPane;
@@ -221,8 +221,50 @@ public class BillsGUI extends JFrame {
 					}
 					
 					
-					writer.write(sb.toString());
-				} catch (FileNotFoundException e1) {
+					if(!(txtBillName.getText().isEmpty() || txtAmount.getText().isEmpty() || txtMonthsBetween.getText().isEmpty() || txtLastPayment.getText().isEmpty()))
+					{
+						//Validate and add new bill
+						try {
+							
+							sb.append(txtBillName.getText() + ",");
+							
+							try{
+								sb.append(df.format(Double.parseDouble(txtAmount.getText())) + ",");
+							}
+							catch (Exception AmountFail) {
+								
+								throw new IllegalArgumentException("Invalid Amount");
+							}
+							
+							try{
+								sb.append(Integer.parseInt(txtMonthsBetween.getText()) + ","); 
+							}
+							catch (Exception MonthsFail) {
+								
+								throw new IllegalArgumentException("Invalid Input for Number of Months");
+							}
+							
+							try{
+								sb.append(txtLastPayment.getText() + "\n");
+							}
+							catch (Exception DateFail) {
+								
+								throw new IllegalArgumentException("Invalid Payment Date");
+							}
+								
+								writer.write(sb.toString());
+						}
+						catch(Exception ValidationError) {
+							JOptionPane.showMessageDialog(null, ValidationError.getMessage(), "InfoBox: " + "Validation", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+					else
+					{
+						System.out.println("Empty field(s) brah");
+					}
+					
+				} 
+				catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
 				
@@ -233,8 +275,13 @@ public class BillsGUI extends JFrame {
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
+
+				txtBillName.setText(null);
+				txtAmount.setText(null);
+				txtMonthsBetween.setText(null);
+				txtLastPayment.setText(null);
 				
-				CloseJframe();
+				//CloseJframe();
 			}
 		});
 		btnUpdateBills.setBounds(285, 400, 152, 29);
