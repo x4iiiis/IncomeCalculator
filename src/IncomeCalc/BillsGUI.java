@@ -17,6 +17,19 @@ import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.JScrollPane;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ScrollPaneConstants;
+
+import org.eclipse.wb.swing.FocusTraversalOnArray;
+import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
+import java.awt.GridLayout;
 
 public class BillsGUI extends JFrame {
 
@@ -91,6 +104,8 @@ public class BillsGUI extends JFrame {
 		contentPane.add(lblLastPayment);
 		
 		/////////////
+		JPanel panel = new JPanel();
+		/////////////
 		JTextField[] Names = new JTextField[FM.getBillList().size()];
 		JTextField[] Amounts = new JTextField[FM.getBillList().size()];
 		JTextField[] MonthsBetween = new JTextField[FM.getBillList().size()];
@@ -108,71 +123,68 @@ public class BillsGUI extends JFrame {
 		for (int i = 0; i < Names.length; i++)
 		{
 			Names[i].setFont(new Font("Lucida Grande", Font.PLAIN, 7));
-			Names[i].setBounds(16, y, 124, 26);
-			contentPane.add(Names[i]);
+			Names[i].setBounds(160, y, 124, 26);
+			panel.add(Names[i]);
 			Names[i].setColumns(10);
+			
 			
 			Amounts[i].setFont(new Font("Lucida Grande", Font.PLAIN, 7));
 			Amounts[i].setBounds(144, y, 80, 26);
-			contentPane.add(Amounts[i]);
+			panel.add(Amounts[i]);
 			Amounts[i].setColumns(10);
 			
 			MonthsBetween[i].setFont(new Font("Lucida Grande", Font.PLAIN, 7));
 			MonthsBetween[i].setBounds(252, y, 59, 26);
-			contentPane.add(MonthsBetween[i]);
+			panel.add(MonthsBetween[i]);
 			MonthsBetween[i].setColumns(10);
 			
 			LastPaydays[i].setFont(new Font("Lucida Grande", Font.PLAIN, 7));
 			LastPaydays[i].setBounds(335, y, 99, 26);
-			contentPane.add(LastPaydays[i]);
+			panel.add(LastPaydays[i]);
 			LastPaydays[i].setColumns(10);
 			
+			panel.validate();
 			y+=25;
 					
 		}
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(16, 61, 428, 300);
+		contentPane.add(scrollPane);
+		
+		scrollPane.setViewportView(panel);
+		panel.setLayout(new GridLayout(0, 4, 0, 0));
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setAutoscrolls(true);
+		scrollPane.validate();
+		
 		txtBillName = new JTextField();
 		txtBillName.setFont(new Font("Lucida Grande", Font.PLAIN, 7));
-		txtBillName.setBounds(16, y, 124, 26);
-		contentPane.add(txtBillName);
 		txtBillName.setColumns(10);
+		txtBillName.setBounds(26, 365, 124, 26);
+		getContentPane().add(txtBillName);
 		
 		txtAmount = new JTextField();
 		txtAmount.setFont(new Font("Lucida Grande", Font.PLAIN, 7));
 		txtAmount.setColumns(10);
-		txtAmount.setBounds(144, y, 80, 26);
-		contentPane.add(txtAmount);
+		txtAmount.setBounds(162, 365, 80, 26);
+		getContentPane().add(txtAmount);
 		
 		txtMonthsBetween = new JTextField();
 		txtMonthsBetween.setFont(new Font("Lucida Grande", Font.PLAIN, 7));
 		txtMonthsBetween.setColumns(10);
-		txtMonthsBetween.setBounds(252, y, 59, 26);
-		contentPane.add(txtMonthsBetween);
+		txtMonthsBetween.setBounds(253, 365, 59, 26);
+		getContentPane().add(txtMonthsBetween);
 		
 		txtLastPayment = new JTextField();
 		txtLastPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 7));
 		txtLastPayment.setColumns(10);
-		txtLastPayment.setBounds(335, y, 99, 26);
-		contentPane.add(txtLastPayment);
+		txtLastPayment.setBounds(324, 365, 99, 26);
+		getContentPane().add(txtLastPayment);
 		
-		/*
-		 * JScrollPane jsp = new JScrollPane();
-		for (int i = 0; i < Names.length; i++)
-		{
-			jsp.add(Names[i]);
-			jsp.add(Amounts[i]);
-			jsp.add(MonthsBetween[i]);
-			jsp.add(LastPaydays[i]);
-		}
+		panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txtBillName, txtAmount, txtMonthsBetween, txtLastPayment}));
 		
-		jsp.setBounds(16, 61, 425, y);
-		contentPane.add(jsp);
-		*/
-		
-		//^Above is broken but trying to make the bills list text fields scrollable 
-		
-		
-		y+= 35;
 		
 		JButton btnUpdateBills = new JButton("Update Bills");
 		btnUpdateBills.addActionListener(new ActionListener() {
@@ -230,23 +242,23 @@ public class BillsGUI extends JFrame {
 				CloseJframe();
 			}
 		});
-		btnUpdateBills.setBounds(285, y, 152, 29);
+		btnUpdateBills.setBounds(285, 400, 152, 29);
 		contentPane.add(btnUpdateBills);
 		
+		JButton btnPlus = new JButton("+");
+		btnPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Move update and + buttons down and create input boxes 
+				
+			}
+		});
+		btnPlus.setBounds(16, 400+y, 37, 29);
+		contentPane.add(btnPlus);
 		
 		
-		y+=75;
-		System.out.println(y);
 		
-		if(y > 350)
-		{
-			setBounds(100, 100, 450, 350);
-			
-		}
-		else
-		{
-			setBounds(100, 100, 450, y);
-		}
+		setBounds(100, 100, 450, 460);
 	}
 	
 
