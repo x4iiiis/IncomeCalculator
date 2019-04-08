@@ -15,20 +15,15 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JScrollPane;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
-import java.awt.GridBagLayout;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 
 public class BillsGUI extends JFrame {
@@ -244,19 +239,6 @@ public class BillsGUI extends JFrame {
 		});
 		btnUpdateBills.setBounds(285, 400, 152, 29);
 		contentPane.add(btnUpdateBills);
-		
-		JButton btnPlus = new JButton("+");
-		btnPlus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				//Move update and + buttons down and create input boxes 
-				
-			}
-		});
-		btnPlus.setBounds(16, 400+y, 37, 29);
-		contentPane.add(btnPlus);
-		
-		
 		
 		setBounds(100, 100, 450, 460);
 	}

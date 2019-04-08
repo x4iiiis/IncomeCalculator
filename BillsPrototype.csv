@@ -1,22 +1,40 @@
-Bill Name,Amount,Months Between Payments,Date of Last Payment,
+Bill Name,Amount,Months Between Payments,Date of Last Payment
 ,,^,
 ,,|____  option in gui for months/years; bi-annual will auto calculate to 24 months etc,
-
+,,,
+Phone Bill,55,1,25/09/2018
+Fuel,40,1,01/10/2018
+Gym Membership,17.99,1,01/10/2018
+Rent,0,1,18/09/2018
+Xbox Live,6.99,1,26/09/2018
+PSN,0,1,01/10/2018
+HibsTV,5.99,1,27/09/2018
+Spotify,0,1,01/10/2018
+GitHub,0,1,01/10/2018
+Food,0,1,01/10/2018
 GoDaddy Email Essentials,57.46,12,03/03/2019
 GoDaddy Domain Etc,28.91,12,03/03/2019
-Netflix,7.99,1,04/04/2019
-Fuel,40,1,01/04/2019
-Gym Membership,17.99,1,01/04/2019
-PSN,0,1,01/04/2019
-Spotify,0,1,01/04/2019
-GitHub,0,1,01/04/2019
-Food,0,1,01/04/2019
-SeasonTicketFinance,70,1,01/04/2019
-Road Tax,11.81,1,01/04/2019
-Digs,200,1,01/04/2019
-HibsTV,5.99,1,27/03/2019
-Xbox Live,6.99,1,26/03/2019
-Phone Bill,55,1,25/03/2019
-Rent,0,1,18/03/2019
-Car Insurance,20.51,1,15/03/2019
-Heroku,$25,1,14/03/2019
+Heroku,$25,1,14/02/2019
+SeasonTicketFinance,70,1,01/10/2018
+Car Insurance,20.51,1,15/10/2018
+Road Tax,11.81,1,01/10/2018
+Netflix,7.99,1,04/10/2018
+Digs,200,1,01/01/2018
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
