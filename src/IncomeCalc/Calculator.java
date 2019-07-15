@@ -17,7 +17,7 @@ public class Calculator
 		
 		//My variables
 		double salary = FM.GetIncome().Salary;
-		//salary = 27000; //Testing purposes
+		//salary = 25000; //Testing purposes
 		
 		//Decimal formatter
 		DecimalFormat df = new DecimalFormat("#.##");	//Fix decimal formatting
@@ -37,6 +37,10 @@ public class Calculator
 		
 		System.out.println("Post National Insurance Salary:\t\t£" + df.format(income));
 		
+		//Adding Student Loan Repayment
+		System.out.println("Student Loan Deduction:\t\t\t£" + df.format(calculateStudentLoan(salary)));
+		income -= calculateStudentLoan(salary);
+		
 		double wage = income / 12;
 		System.out.println("Monthly Wage:\t\t\t\t£" + df.format(wage) + "\n");
 		
@@ -48,7 +52,7 @@ public class Calculator
 		double[] billTotals = FM.payBills();
 		
 		//Now 
-		System.out.println("\nSo far this wage, you have already paid £" + billTotals[0] + " in bills, "
+		System.out.println("\nSo far this wage, you have already paid £" + df.format(billTotals[0]) + " in bills, "
 				+ "taking your wage to £" + df.format((wage - billTotals[0])) + ".");
 		//Apply that calculation
 		wage -= billTotals[0];
@@ -187,6 +191,20 @@ public class Calculator
 		double NationalInsuranceDeduction = TwelvePercentPortion + TwoPercentPortion;
 		
 		return NationalInsuranceDeduction;
+	}
+	
+	
+	// Student Loan Repayment
+	// https://media.slc.co.uk/saas/1920/SAAS_terms_and_conditions_guide_1920_o.pdf
+	public static double calculateStudentLoan(double salary)
+	{
+		double threshold = 18935;
+		double repayable = salary - threshold;
+		
+		if( repayable > 0) {
+			return repayable * 0.09; // 9% of income above threshold
+		}
+		return 0;
 	}
 	
 	
