@@ -30,22 +30,25 @@ public class Calculator
 		System.out.println("Income Tax Deduction:\t\t\t£" + df.format(getIncomeTax(salary)));
 		
 		double income = salary - (getIncomeTax(salary));
-		System.out.println("Post-Income Tax Salary:\t\t\t£" + df.format(income));
+		//System.out.println("Post-Income Tax Salary:\t\t\t£" + df.format(income));
 		
 		System.out.println("National Insurance Deduction:\t\t£" + df.format(calculateNationalInsurance(salary)));
 		income -= calculateNationalInsurance(salary);
 		
-		System.out.println("Post National Insurance Salary:\t\t£" + df.format(income));
+		//System.out.println("Post National Insurance Salary:\t\t£" + df.format(income));
 		
 		//Adding Student Loan Repayment
 		System.out.println("Student Loan Deduction:\t\t\t£" + df.format(calculateStudentLoan(salary)));
 		income -= calculateStudentLoan(salary);
 		
+		System.out.println("Income:\t\t\t\t\t£" + df.format(income));
+		
 		double wage = income / 12;
 		System.out.println("Monthly Wage:\t\t\t\t£" + df.format(wage) + "\n");
 		
 		
-		System.out.println("\n\t\tBills & Direct Debits");
+		
+		System.out.println("\n\n\t\tBills & Direct Debits");
 		
 		//Now we've got our salary data, applied income tax and national insurance to it,
 		//it's time to apply the effects of bills on the remaining wage
@@ -53,20 +56,19 @@ public class Calculator
 		
 		//Now 
 		System.out.println("\nSo far this wage, you have already paid £" + df.format(billTotals[0]) + " in bills, "
-				+ "taking your wage to £" + df.format((wage - billTotals[0])) + ".");
+				+ "taking your remaining wage to £" + df.format((wage - billTotals[0])) + ".");
 		//Apply that calculation
 		wage -= billTotals[0];
 		
 		System.out.println("Before your next payday, you will pay a further £" + df.format(billTotals[1])
-				+ ", and your remaining wage will be £" + df.format((wage - billTotals[1])) + ".");
+				+ ", and your remaining wage will be £" + df.format((wage - billTotals[1])) + ".\n");
 		//Apply that calculation
 		wage -= billTotals[1];
 		
-		System.out.println("In total, you pay £" + df.format((billTotals[0] + billTotals[1])) + 
-				" in bills each month, excluding bills that are paid less often than once a month.");
-		
-		System.out.println("Those bills are:"); // List bills that are paid further into the future. Just x4iiiis.com atm
-		System.out.println("\t[insert long-term bills here]");
+		System.out.println("In total, you pay ~£" + df.format(((billTotals[0] - billTotals[2]) + billTotals[1] )) + 
+				" in bills each month, excluding the following non-monthly bills:\n");
+		FM.NonMonthlyPayments();
+		System.out.println("*Non-monthly bills that HAVE been paid this month won't show up here*\n");
 		
 		
 		//Now for savings

@@ -142,7 +142,7 @@ public class FinanceManager {
 			try {
 				B.billAmount = Double.parseDouble(arr[1]);
 			}
-			catch(Exception DollarSign)	//Heroku is paid in USD, so I'm cutting the $ out of the csv result and converting it
+			catch(Exception DollarSign)	//Heroku, Digital Ocean and Laravel Forge are paid in USD, so I'm cutting the $ out of the csv result and converting it
 			{
 				B.billAmount = CurrencyConverter.GetExchangeRate() * Double.parseDouble(arr[1].substring(1));
 			}
@@ -201,6 +201,7 @@ public class FinanceManager {
 		//Totals for how much has and has not yet been paid this wage
 		double paid = 0;
 		double unpaid = 0;
+		double nonmonthlypaid = 0;
 		
 		//System.out.println();
 		//System.out.println(inc.NextPayday + " <--- inc.NextPayday");
@@ -224,6 +225,11 @@ public class FinanceManager {
 					//Need this to prevent long-term (like x4iiiis.com) saying it has been paid on this wage if it hasn't
 					if(!(b.lastPayment.isBefore(inc.LastPayday)))
 					{
+						if(!b.nextPayment.isAfter(inc.NextPayday)) {
+							//If it has been paid this month, but is not paid monthly, 
+							//It is recognised here and subtracted from the total monthly payments counter
+							nonmonthlypaid += b.billAmount;
+						}
 						paid += b.billAmount;
 						System.out.println(b.billName + " has already been paid on this wage (" +
 							dateFormatter.format(b.lastPayment) + "):\n£" + df.format(b.billAmount));
@@ -234,11 +240,29 @@ public class FinanceManager {
 			}
 		}
 		
-		double[] totals = {paid,unpaid};
+		double[] totals = {paid,unpaid,nonmonthlypaid};
 		return totals;
 	}
 	
 	
+	
+	void NonMonthlyPayments() {
+		//Decimal formatter
+		DecimalFormat df = new DecimalFormat("#.##");	//Fix decimal formatting
+		
+		if(BillList != null) {
+			System.out.println("Due Date\t Amount\t\tBill Name\n");
+		}
+		for(Bill b : BillList)
+		{
+			if(b.nextPayment.isAfter(inc.NextPayday) && b.lastPayment.isBefore(inc.LastPayday)) {
+				//If next payment is after the next payday, and the previous payment was before
+				//The current payday (aka, isn't paid on this wage)
+				System.out.println(dateFormatter.format(b.nextPayment) + "\t £" + df.format(b.billAmount) + "\t\t" + b.billName);
+			}
+		}
+		System.out.println();
+	}
 	
 	
 	
