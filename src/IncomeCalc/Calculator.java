@@ -65,19 +65,19 @@ public class Calculator
 		//Apply that calculation
 		wage -= billTotals[1];
 		
-		System.out.println("In total, you pay ~£" + df.format(((billTotals[0] - billTotals[2]) + billTotals[1] )) + 
+		System.out.println("In total, you pay ~£" + df.format((billTotals[0] - billTotals[2]) + billTotals[1] ) + 
 				" in bills each month, excluding the following non-monthly bills:\n");
 		FM.NonMonthlyPayments();
 		System.out.println("*Non-monthly bills that HAVE been paid this month won't show up here*\n");
 		
 		
 		//Now for savings
-		System.out.println("\n\n\t\tReasons to Save\n");
+		//System.out.println("\n\n\t\tReasons to Save\n");
 		//Not really but theoretical, might be true in future
-		System.out.println("You have another direct debit; You pay ~£250 a month to your Santander account,"
-			+ " which leaves you with £" + df.format(wage - 250) + ".");
+		//System.out.println("You have another direct debit; You pay ~£250 a month to your Santander account,"
+		//	+ " which leaves you with £" + df.format(wage - 250) + ".");
 		//Apply that
-		wage -= 250;
+		//wage -= 250;
 		
 		//actual savings...
 		FM.workoutSavingsRequirements(wage);
